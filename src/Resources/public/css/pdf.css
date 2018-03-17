@@ -1,0 +1,30 @@
+h2{
+	text-align: center;
+}
+h3.monyear{
+
+}
+table{
+	width:100%;
+	padding: 5px;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+td{
+	padding-top: 5px;
+	padding-bottom: 5px;
+	border-top: 1px solid #E9E9E9;
+	border-bottom: 1px solid #E9E9E9;
+}
+
+.col_0{
+	width: 20%;
+}
+.col_1{
+	width: 80%;
+}
+
+tr.odd{
+	background-color: #FAFAFA;
+}

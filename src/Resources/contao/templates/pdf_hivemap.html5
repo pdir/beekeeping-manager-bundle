@@ -1,0 +1,22 @@
+<h2>Stockkarte vom Volk <?php echo $this->colony->hive_number;?> (<?php echo $this->colony->hive_notice; ?>)<?php if($this->colony->death) echo ' &#x2020;'; ?></h2>
+<p>
+<strong>Datei erzeugt am:</strong> <?php echo date('d.m.Y H:i:s');?>
+<br><strong>Rasse:</strong> <?php echo $this->colony->breed;?>
+<br><strong>Hauptstandort:</strong> <?php echo $this->colony->main_site;?>
+<br><strong>Abstammung:</strong> <?php if($this->colony->nativity_id) echo ($this->colony->nativity_death?' &#x2020; ':'').'Volk '.$this->colony->nativity_hive_number.' ('.$this->colony->nativity_hive_notice.')';?><?php echo $this->colony->nativity;?>
+<?php if($this->colony->notice): ?><br><strong>Notizen:</strong> <?php echo $this->colony->notice;?><?php endif; ?>
+</p>
+<?php foreach ($this->fieldData as $category => $data): ?>
+
+	<h3 class="monyear"><?php echo $category; ?></h3>
+	<table>
+		<tbody>
+		<?php foreach($data as $k => $entry): ?>
+			<tr class="<?php echo ($k % 2)==0 ? 'odd' : 'even' ;?>">
+				<td class="col_0 first"><?php echo $entry['date'];?>:</td>
+				<td class="col_1 last"><?php echo $entry['description'];?></td>
+			</tr>
+    	<?php endforeach; ?>
+  		</tbody>
+	</table>
+<?php endforeach; ?>
