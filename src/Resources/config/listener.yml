@@ -1,0 +1,6 @@
+services:
+    srhinow_beekeepingmanager.listener.insert_tags:
+        class: Srhinow\BeekeepingManagerBundle\EventListener\InsertTagsListener
+        arguments:
+            - "@contao.framework"
+        public: true
