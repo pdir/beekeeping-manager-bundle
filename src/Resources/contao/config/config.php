@@ -11,9 +11,12 @@
  * beekeeping-manager-bundle Version
  */
 @define('IAO_VERSION', '1.0');
-@define('IAO_BUILD', '0');
+@define('IAO_BUILD', '1');
 @define('BKM_PATH','vendor/srhinow/beekeeping-manager-bundle');
-@define('BKM_PUBLIC_FOLDER','bundles/srhinowprojectmanager');
+@define('BKM_PUBLIC_FOLDER','bundles/srhinowbeekeepingmanager');
+@define('LOCATION_API_KEY','9e4c2e3bd44a3b'); // http://locationiq.org
+@define('OPENWEATHERMAP_API_KEY','0ed9e2f4f6b89977b656038daf7c8209');
+
 /**
  * Add back end modules
  */
@@ -21,12 +24,20 @@
 if(!$GLOBALS['BE_MOD']['beekeeping']) array_insert($GLOBALS['BE_MOD'], 1, array( 'beekeeping' => array() ) );
 
 array_insert($GLOBALS['BE_MOD']['beekeeping'], 0, array(
-	'bk_bkm' => array
+    'bkm_location' => array
+    (
+        'tables'					=> array('tl_bkm_location','tl_bkm_colonies','tl_bkm_hivemap'),
+    ),
+    'bkm_weather' => array
+    (
+        'callback'	=> 'Bkm\Modules\Be\ModuleBkmWeather'
+    ),
+    'bkm_settings' => array
 		(
 			'callback'	=> 'ModuleBkmSetup',
 			'tables' => array(),
-			'icon'   => BKM_PUBLIC_FOLDER.'/assets/icons/beekeeping.png',
-			'stylesheet' => BKM_PUBLIC_FOLDER.'/assets/css/be.css',
+			'icon'   => BKM_PUBLIC_FOLDER.'/icons/beekeeping.png',
+			'stylesheet' => BKM_PUBLIC_FOLDER.'/css/be.css',
 		)
 	)
 );
@@ -34,65 +45,52 @@ array_insert($GLOBALS['BE_MOD']['beekeeping'], 0, array(
 /**
  * beekeeper management Modules
  */
-$GLOBALS['BK_BKM_MOD'] = array
+$GLOBALS['BKM_MOD'] = array
 (
-	'bkm_entries' => array
-	(
-		'bk_bkm_bee_prey' => array
-		(
-			'tables'					=> array('tl_bk_bkm_bee_prey','tl_bk_colonies','tl_bk_hivemap'),
-			'icon'   => BKM_PUBLIC_FOLDER.'/assets/icons/caution_board.png',
-		),
-		'bk_bkm_colonies' => array
-		(
-			'tables' => array('tl_bk_colonies','tl_bk_hivemap'),
-			'icon'   => BKM_PUBLIC_FOLDER.'/assets/icons/hive.png',
-			'stylesheet' => BKM_PUBLIC_FOLDER.'/assets/css/be.css',
-			'csvExport' => array('beBeekeepingExport', 'csvExport'),
-			'pdfExport' => array('beBeekeepingExport', 'pdfExport'),
-		)
-	),
 	'bkm_properties' => array
 	(
-		'bk_bkm_bee_breed' => array
+        'bkm_beehive' => array
+        (
+            'tables'					=> array('tl_bkm_beehive','tl_bkm_colonies','tl_bkm_hivemap'),
+            'icon'   => BKM_PUBLIC_FOLDER.'/icons/caution_board.png',
+        ),
+	    'bkm_bee_breed' => array
 		(
-			'tables'					=> array('tl_bk_bkm_bee_breed'),
-			'icon'   => BKM_PUBLIC_FOLDER.'/assets/icons/crown_gold.png',
+			'tables'					=> array('tl_bkm_bee_breed'),
+			'icon'   => BKM_PUBLIC_FOLDER.'/icons/crown_gold.png',
 		),
-		'bk_bkm_location' => array
+		'bkm_population_size' => array
 		(
-			'tables'					=> array('tl_bk_bkm_location'),
-			'icon'						=> BKM_PUBLIC_FOLDER.'/assets/icons/map.png',
+			'tables'					=> array('tl_bkm_population_size'),
+			'icon'						=> BKM_PUBLIC_FOLDER.'/icons/layer_grid.png',
 		),
-		'bk_bkm_population_size' => array
+		'bkm_gentleness' => array
 		(
-			'tables'					=> array('tl_bk_bkm_population_size'),
-			'icon'						=> BKM_PUBLIC_FOLDER.'/assets/icons/layer_grid.png',
+			'tables'					=> array('tl_bkm_gentleness'),
+			'icon'						=> BKM_PUBLIC_FOLDER.'/icons/heart_half.png',
 		),
-		'bk_bkm_gentleness' => array
+		'bkm_frame_dimensions' => array
 		(
-			'tables'					=> array('tl_bk_bkm_gentleness'),
-			'icon'						=> BKM_PUBLIC_FOLDER.'/assets/icons/heart_half.png',
-		),
-		'bk_bkm_frame_dimensions' => array
-		(
-			'tables'					=> array('tl_bk_bkm_frame_dimensions'),
-			'icon'   => BKM_PUBLIC_FOLDER.'/assets/icons/picture_frame.png',
+			'tables'					=> array('tl_bkm_frame_dimensions'),
+			'icon'   => BKM_PUBLIC_FOLDER.'/icons/picture_frame.png',
 		),
 	)
 );
 
+if ('BE' === TL_MODE) {
+    $GLOBALS['TL_CSS'][] = BKM_PUBLIC_FOLDER.'/css/be.css|static';
+}
 
 // Enable tables in iao_setup
-if ($_GET['do'] == 'bk_bkm')
+if ($_GET['do'] == 'bkm_settings')
 {
-	foreach ($GLOBALS['BK_BKM_MOD'] as $strGroup=>$arrModules)
+	foreach ($GLOBALS['BKM_MOD'] as $strGroup=>$arrModules)
 	{
 		foreach ($arrModules as $strModule => $arrConfig)
 		{
 			if (is_array($arrConfig['tables']))
 			{
-				$GLOBALS['BE_MOD']['beekeeping']['bk_bkm']['tables'] = array_merge($GLOBALS['BE_MOD']['beekeeping']['bk_bkm']['tables'], $arrConfig['tables']);
+				$GLOBALS['BE_MOD']['beekeeping']['bkm_settings']['tables'] = array_merge($GLOBALS['BE_MOD']['beekeeping']['bkm_settings']['tables'], $arrConfig['tables']);
 			}
 		}
 	}
