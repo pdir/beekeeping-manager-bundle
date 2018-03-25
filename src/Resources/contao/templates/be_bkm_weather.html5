@@ -1,0 +1,16 @@
+<div class="pmb_config_wrapper">
+    <h1 id="tl_welcome">heutiges Wetter</h1>
+
+    <div id="pmb_overview">
+            <p><img src="<?=$this->iconurl?>"></p>
+            <p>Temperatur: <?=$this->temperature;?></p>
+            <p>Luftfeuchtigkeit: <?=$this->humidity;?></p>
+            <p>Luftdruck: <?=$this->pressure;?></p>
+            <p>Niederschlag: <?=$this->precipitation;?></p>
+            <p>Wind: <?=$this->wind_speed;?> / <?=$this->wind_direction;?> </p>
+            <p>Wolken: <?=$this->clouds;?></p>
+            <p>Sonnenaufgang: <?=$this->sunrise;?> Uhr</p>
+            <p>Sonnenuntergang: <?=$this->sunset;?> Uhr</p>
+    </div>
+
+</div>
