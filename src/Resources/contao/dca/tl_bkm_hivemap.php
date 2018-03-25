@@ -13,6 +13,10 @@ namespace Bkm\Dca;
  * Table tl_bkm_hivemaps
  */
 use Contao\Backend;
+use Contao\Date;
+use Contao\Input;
+use Srhinow\BkmColoniesModel;
+use Srhinow\BkmLocationModel;
 
 $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 (
@@ -24,13 +28,12 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 		'ptable'                    => 'tl_bkm_colonies',
 		'switchToEdit'                => true,
 		'enableVersioning'            => true,
-		'custom_headline'			=> &$GLOBALS['TL_LANG']['tl_bkm_hivemap']['cust_headline'],
-		'headline_callback'         => array('Bkm\Dca\Hivemap', 'custHeadline'),
 		'sql' => array
 		(
 			'keys' => array
 			(
-				'id' => 'primary'
+                'id' => 'primary',
+                'pid' => 'index'
 			)
 		),
 		'oncreate_callback' => array
@@ -48,18 +51,16 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 		'sorting' => array
 		(
 			'mode'                    => 4,
-			// 'flag'					=> 7,
+            'flag'                    => 1,
 			'fields'                  => array('date DESC'),
 			'headerFields'            => array('hive_number', 'hive_notice', 'main_site'),
-			'panelLayout'             => 'filter;sort,limit;search',
-			'panelLayout'             => 'filter;sort,limit;search',
-			'child_record_class'      => 'no_padding'
+			'panelLayout'             => '',
+            'child_record_callback'   => array('Bkm\Dca\Hivemap', 'listItems')
 		),
 		'label' => array
 		(
 			'fields'                  => array('date', 'description'),
 			'format'                  => '%s: %s',
-// 			'label_callback'          => array('tl_bkm_hivemap', 'listEntries'),
 		),
 		'global_operations' => array
 		(
@@ -363,6 +364,15 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
  */
 class Hivemap extends Backend
 {
+    public function listItems($arrRow){
+
+        if($arrRow['type'] == 'location' && $arrRow['location'] > 0) {
+            $objLocation = BkmLocationModel::findByIdOrAlias($arrRow['location']);
+            $arrRow['description'] = $objLocation->name;
+        }
+        return '<div class="tl_content_left"><div style="float:left;color:#b3b3b3;padding-right:10px">[' . Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $arrRow['date']) . ']</div> <div style="float:left;">' . nl2br($arrRow['description']) . '</div><div style="clear:both;"><br></div></div>';
+
+    }
     /**
      * get custom view from colonies-options
      * @param $headline
@@ -373,8 +383,7 @@ class Hivemap extends Backend
 
 		if($headline != '' && $this->Input->get('id'))
         {
-			$resObj = $this->Database->prepare('SELECT * FROM `tl_bkm_colonies` WHERE `id` =?')
-					  ->execute($this->Input->get('id'));
+            $resObj = BkmColoniesModel::findByIdOrAlias(Input::get('id'));
 
 			if($resObj->numRows > 0)  $headline = sprintf($headline, $resObj->hive_number, $resObj->hive_notice);
 

@@ -24,7 +24,9 @@ $GLOBALS['TL_DCA']['tl_bkm_colonies'] = array
 		'dataContainer' => 'Table',
         'ptable'                      => 'tl_bkm_location',
 		'ctable'                      => array('tl_bkm_hivemap'),
-		'enableVersioning'            => true,
+        'doNotCopyRecords'			  => true,
+        'switchToEdit'                => true,
+        'enableVersioning'            => false,
         'onsubmit_callback' => array
         (
             array('Bkm\Dca\Colonies', 'setBeehiveStatus')

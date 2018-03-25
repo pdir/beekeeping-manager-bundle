@@ -23,7 +23,7 @@ $GLOBALS['TL_DCA']['tl_bkm_location'] = array
 	'config' => array
 	(
 		'dataContainer' => 'Table',
-		'ctable' => 'tl_bkm_colonies',
+		'ctable' => array('tl_bkm_colonies'),
 		'enableVersioning' => true,
         'onsubmit_callback' => array
         (

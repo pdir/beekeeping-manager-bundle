@@ -16,6 +16,7 @@ use Contao\Backend;
 use Contao\Database;
 use Contao\Image;
 use Contao\DataContainer;
+use Srhinow\BkmFrameDimensionsModel;
 
 $GLOBALS['TL_DCA']['tl_bkm_beehive'] = array
 (
@@ -196,13 +197,11 @@ class Beehive extends Backend
 	public function getFrameDimensionsOptions(DataContainer $dc)
 	{
 		$varValue= array();
+        $objDb = BkmFrameDimensionsModel::findAll();
 
-		$all = Database::getInstance()->prepare('SELECT `id`,`name` FROM `tl_bk_bkm_frame_dimensions`')
-				->execute();
-
-		while($all->next())
+		while($objDb != null)
 		{
-			$varValue[$all->id] = $all->name;
+			$varValue[$objDb->id] = $objDb->name;
 		}
 
 	    return $varValue;
