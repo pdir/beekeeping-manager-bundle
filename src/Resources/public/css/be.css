@@ -1,3 +1,6 @@
+#tl_navigation .tl_level_1_group .group-beekeeping {
+    background: url('../icons/beekeeping.png') 0 0 no-repeat;
+}
 #tl_moverview h2 {
     background: none repeat scroll 0 0 #F6F6F6;
     border-top: 1px solid #E9E9E9;
@@ -17,10 +20,12 @@
 }
 /* custom button-styles*/
 .pdf_export{
-  background:url("../icons/iconPDF.gif") no-repeat left center;
-  padding-left: 18px;
+    background:url("../icons/iconPDF.gif") no-repeat left center;
+    padding-left: 18px;
+    margin-left: 10px;
 }
 .csv_export{
-  background:url("../icons/iconCSV.png") no-repeat left center;
-  padding-left: 18px;
+    background:url("../icons/iconCSV.png") no-repeat left center;
+    padding-left: 18px;
+    margin-left: 10px;
 }
