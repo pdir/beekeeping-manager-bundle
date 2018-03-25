@@ -19,7 +19,7 @@ class ModuleBkmSetup extends \BackendModule
 	 * Template
 	 * @var string
 	 */
-	protected $strTemplate = 'be_bk_bkm_setup';
+	protected $strTemplate = 'be_bkm_setup';
 
 	/**
 	 * Isotope modules
@@ -37,18 +37,18 @@ class ModuleBkmSetup extends \BackendModule
 
 		$this->import('BackendUser', 'User');
 
-		foreach ($GLOBALS['BK_BKM_MOD'] as $strGroup => $arrModules)
+		foreach ($GLOBALS['BKM_MOD'] as $strGroup => $arrModules)
 		{
 
 			foreach ($arrModules as $strModule => $arrConfig)
 			{
 
-				if ($this->User->hasAccess($strModule, 'bk_modules'))
+				if ($this->User->hasAccess($strModule, 'bkm_modules'))
 				{
 
 					if (is_array($arrConfig['tables']))
 					{
-						$GLOBALS['BE_MOD']['beekeeping']['bk_bkm']['tables'] += $arrConfig['tables'];
+						$GLOBALS['BE_MOD']['beekeeping']['bkm_settings']['tables'] += $arrConfig['tables'];
 					}
 
 					$this->arrModules[$GLOBALS['TL_LANG']['BKM'][$strGroup]][$strModule] = array
@@ -94,8 +94,8 @@ class ModuleBkmSetup extends \BackendModule
 	{
 
 		$this->Template->modules = $this->arrModules;
-		$this->Template->script = $this->Environment->script;
-		$this->Template->welcome = sprintf($GLOBALS['TL_LANG']['BKBKM']['config_module']);
+		$this->Template->script = \Contao\Environment::get('script').'/contao';
+		$this->Template->welcome = sprintf($GLOBALS['TL_LANG']['BKM']['config_module']);
 	}
 
 
@@ -108,7 +108,7 @@ class ModuleBkmSetup extends \BackendModule
 	{
 		$arrModule = array();
 
-		foreach ($GLOBALS['BK_BKM_MOD'] as $arrGroup)
+		foreach ($GLOBALS['BKM_MOD'] as $arrGroup)
 		{
 			if (!empty($arrGroup) && in_array($module, array_keys($arrGroup)))
 			{
