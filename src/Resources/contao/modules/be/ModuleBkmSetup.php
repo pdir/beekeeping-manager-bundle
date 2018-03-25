@@ -95,7 +95,7 @@ class ModuleBkmSetup extends \BackendModule
 
 		$this->Template->modules = $this->arrModules;
 		$this->Template->script = \Contao\Environment::get('script').'/contao';
-		$this->Template->welcome = sprintf($GLOBALS['TL_LANG']['BKM']['config_module']);
+        $this->Template->welcome = sprintf($GLOBALS['TL_LANG']['BKM']['config_module'], BKM_VERSION . '.' . BKM_BUILD);
 	}
 
 

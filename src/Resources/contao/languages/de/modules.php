@@ -19,7 +19,7 @@ $GLOBALS['TL_LANG']['MOD']['bkm_location'] = array('Standorte', 'Verwalten sie h
 $GLOBALS['TL_LANG']['MOD']['bkm_weather'] = array('Wetter', 'Betrachten sie hier das aktuelle Wetter.');
 $GLOBALS['TL_LANG']['MOD']['bkm_settings'] = array('Einstellungen', 'Einstellungen und Optionen.');
 
-$GLOBALS['TL_LANG']['BKBKM']['config_module']             = 'Imkereiverwaltung';
+$GLOBALS['TL_LANG']['BKM']['config_module']             = 'Imkereiverwaltung (Version: %s)';
 
 $GLOBALS['TL_LANG']['BKM']['bkm_entries']       = 'Einträge';
 $GLOBALS['TL_LANG']['BKM']['bkm_properties']       = 'Eigenschaften';
