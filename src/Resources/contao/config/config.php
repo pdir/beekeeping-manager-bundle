@@ -11,7 +11,7 @@
  * beekeeping-manager-bundle Version
  */
 @define('IAO_VERSION', '1.0');
-@define('IAO_BUILD', '2');
+@define('IAO_BUILD', '4');
 @define('BKM_PATH','vendor/srhinow/beekeeping-manager-bundle');
 @define('BKM_PUBLIC_FOLDER','bundles/srhinowbeekeepingmanager');
 @define('LOCATION_API_KEY','9e4c2e3bd44a3b'); // http://locationiq.org
