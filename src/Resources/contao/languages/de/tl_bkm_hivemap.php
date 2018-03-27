@@ -13,6 +13,9 @@ $GLOBALS['TL_LANG']['tl_bkm_hivemap']['cust_headline'] = ' :: Stockkarte vom Vol
 /**
  * Fields
  */
+$GLOBALS['TL_LANG']['tl_bkm_hivemap']['type'] = ['Eintrag-Typ',''];
+$GLOBALS['TL_LANG']['tl_bkm_hivemap']['multi_entry'] = ['für mehrere Völker','wenn dieser Eintrag auch für mehrere Völker eingetragen werden soll.'];
+$GLOBALS['TL_LANG']['tl_bkm_hivemap']['other_colonies'] = ['weitere Völker','Wählen sie welche Völker noch diesen Eintrag erhalten sol.'];
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['date'] = array('Datum', 'Datum des Eintrags.');
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['description'] = array('Bemerkung', 'Bemerkung eingeben');
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_breed'] = array('Brut', 'Bewertung abgeben');
@@ -107,6 +110,8 @@ $GLOBALS['TL_LANG']['tl_bkm_hivemap']['show']   = array('Details', 'Die Detailan
 /**
  * Legend
  */
+$GLOBALS['TL_LANG']['tl_bkm_hivemap']['muti_entry_legend'] = 'Multi-Eintrag';
+$GLOBALS['TL_LANG']['tl_bkm_hivemap']['basic_legend'] = 'Basis';
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['frame_legend'] = 'Waben-Angaben';
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['medication_legend'] = 'Mittel-Angaben';
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['feed_legend'] = 'Futter-Angaben';
