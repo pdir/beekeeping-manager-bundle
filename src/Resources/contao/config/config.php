@@ -30,7 +30,9 @@ array_insert($GLOBALS['BE_MOD']['beekeeping'], 0, array(
     ),
     'bkm_weather' => array
     (
-        'callback'	=> 'Bkm\Modules\Be\ModuleBkmWeather'
+        'callback'	=> 'Bkm\Modules\Be\ModuleBkmWeather',
+        'csvExport' => array('Bkm\Backend\beBeekeepingExport', 'csvExport'),
+        'pdfExport' => array('Bkm\Backend\beBeekeepingExport', 'pdfExport'),
     ),
     'bkm_settings' => array
 		(
@@ -41,6 +43,16 @@ array_insert($GLOBALS['BE_MOD']['beekeeping'], 0, array(
 		)
 	)
 );
+
+$GLOBALS['TL_MODELS']['tl_bkm_bee_breed'] = \Srhinow\BkmBeeBreedModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_beehive'] = \Srhinow\BkmBeehiveModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_colonies'] = \Srhinow\BkmColoniesModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_frame_dimensions'] = \Srhinow\BkmFrameDimensionsModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_gentleness'] = \Srhinow\BkmGentlenessModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_hivemap'] = \Srhinow\BkmHivemapModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_location'] = \Srhinow\BkmLocationModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_population_size'] = \Srhinow\BkmPopulationSizeModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_weather_forcast'] = \Srhinow\BkmWeatherForcastModel::class;
 
 /**
  * beekeeper management Modules
