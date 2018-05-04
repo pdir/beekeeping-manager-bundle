@@ -17,6 +17,7 @@ use Contao\Database;
 use Contao\DataContainer;
 use Contao\Date;
 use Contao\Input;
+use Srhinow\BkmBeehiveModel;
 use Srhinow\BkmColoniesModel;
 use Srhinow\BkmHivemapModel;
 use Srhinow\BkmLocationModel;
@@ -44,7 +45,9 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 		),
 		'onsubmit_callback' => array
 		(
-            array('Bkm\Dca\Hivemap','setCopyEntriesInOtherColonies'),
+            array('Bkm\Dca\Hivemap', 'checkLocation'),
+            array('Bkm\Dca\Hivemap', 'updateTablesStatus'),
+		    array('Bkm\Dca\Hivemap','setCopyEntriesInOtherColonies'),
 		)
 
 	),
@@ -125,8 +128,8 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 	'palettes' => array
 	(
 		'__selector__'                => array('type','multi_entry'),
-		'default'                     => 'type;{muti_entry_legend},multi_entry;{basic_legend},date,description;{rating_legend},rating_breed,rating_feed,rating_gentleness;{frame_legend},frames;{medication_legend:hide},medication;{feed_legend:hide},feed',
-		'location'                     => 'type,date,location',
+		'default'                     => 'type;{multi_entry_legend},multi_entry;{basic_legend},date,description;{rating_legend},rating_breed,rating_feed,rating_gentleness;{frame_legend},frames;{medication_legend:hide},medication;{feed_legend:hide},feed',
+		'location'                     => 'type,location;{multi_entry_legend},multi_entry;{basic_legend},date,description',
 		'status'                     => 'type,date,status',
 	),
     // Subpalettes
@@ -223,7 +226,7 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 			'sorting'                 => true,
 			'flag'                    => 11,
 			'inputType'               => 'select',
-			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'w50', 'includeBlankOption'=>false,'submitOnChange'=>true),
+			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'w50', 'includeBlankOption'=>false,'submitOnChange'=>false),
 			'sql'                     => "int(10) unsigned NOT NULL default '0'",
 			'relation'                => array('type'=>'belongsTo', 'load'=>'eager')
 		),
@@ -235,7 +238,7 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
 			'filter'                => true,
 			'inputType'             => 'select',
 			'options' 		  		=> &$GLOBALS['TL_LANG']['tl_bkm_hivemap']['status_options'],
-			'eval'                  => array('tl_class'=>'clr w50', 'submitOnChange'=>true),
+			'eval'                  => array('tl_class'=>'clr w50', 'submitOnChange'=>false),
 			'sql'					=> "varchar(32) NOT NULL default 'item'"
 		),
 		'frames' =>  array
@@ -398,13 +401,64 @@ class Hivemap extends Backend
 {
     public function listItems($arrRow){
 
-        if($arrRow['type'] == 'location' && $arrRow['location'] > 0) {
-            $objLocation = BkmLocationModel::findByIdOrAlias($arrRow['location']);
-            $arrRow['description'] = $objLocation->name;
-        }
+//        if($arrRow['type'] == 'location' && $arrRow['location'] > 0)
+//        {
+//            $objLocation = BkmLocationModel::findByIdOrAlias($arrRow['location']);
+//            $arrRow['description'] = $objLocation->name;
+//        }
         return '<div class="tl_content_left"><div style="float:left;color:#b3b3b3;padding-right:10px">[' . Date::parse($GLOBALS['TL_CONFIG']['dateFormat'], $arrRow['date']) . ']</div> <div style="float:left;">' . nl2br($arrRow['description']) . '</div><div style="clear:both;"><br></div></div>';
 
     }
+
+    public function checkLocation(DataContainer $dc) {
+
+        $location = Input::post('location');
+//        print_r($location); exit();
+        if($dc->activeRecord->type == 'location' && (int) $location > 0)
+        {
+
+            //wenn Beschreibung noch leer dann neuen Werte setzen
+            if( strlen($dc->activeRecord->description) < 1) {
+
+                $objLocation = BkmLocationModel::findById($location);
+                $dc->activeRecord->description = sprintf($GLOBALS['TL_LANG']['tl_bkm_hivemap']['change_location_description'], $objLocation->name);
+
+                $set = [
+                    'description' => $dc->activeRecord->description
+                ];
+
+                Database::getInstance()->prepare('UPDATE tl_bkm_hivemap %s WHERE id=?')
+                    ->set($set)
+                    ->execute($dc->id);
+            }
+
+            // dem zugehoerigen Bienenstock den neuen Standort zuweisen
+            $this->changeLocation($dc->activeRecord->pid, $location);
+
+            // wenn mehrere Bienenstoecke übernommen werden sollen
+            $other_colonies = Input::post('other_colonies');
+
+            if (Input::post('multi_entry') == 1 && count($other_colonies) > 0) {
+
+                foreach ($other_colonies as $colony_id) {
+                    $this->changeLocation($colony_id, $location);
+                }
+            }
+        }
+    }
+
+    public function changeLocation($colony_id, $newLocation) {
+
+        if((int)$colony_id > 0 && $newLocation > 0) {
+
+            $set = ['pid'=>$newLocation];
+            Database::getInstance()->prepare('UPDATE tl_bkm_colonies %s WHERE id=?')
+                ->set($set)
+                ->execute($colony_id);
+        }
+
+    }
+
     /**
      * get custom view from colonies-options
      * @param $headline
@@ -442,7 +496,8 @@ class Hivemap extends Backend
 
         while($all->next())
         {
-            $varValue[$all->id] = $all->hive_number;
+            $objBeeHive = BkmBeehiveModel::findById($all->hive_number);
+            $varValue[$all->id] = $objBeeHive->nr.' ('.$objBeeHive->notiz.')';
         }
         return $varValue;
     }
@@ -455,7 +510,7 @@ class Hivemap extends Backend
         // wenn mehrere übernommen werden sollen
         $other_colonies = Input::post('other_colonies');
 
-        if ($dc->activeRecord && Input::post(multi_entry) == 1 && count($other_colonies) > 0) {
+        if ($dc->activeRecord && Input::post('multi_entry') == 1 && count($other_colonies) > 0) {
 
             foreach($other_colonies as $colony_id) {
 
@@ -486,6 +541,48 @@ class Hivemap extends Backend
                 }
 
             }
+        }
+    }
+
+    public function updateTablesStatus(DataContainer $dc) {
+
+        $objColony =BkmColoniesModel::findByPk($dc->activeRecord->pid);
+        if(!is_object($objColony)) return false;
+
+        switch($dc->activeRecord->status) {
+            case 1: //erstellt
+                break;
+            case 2: //aufgelöst
+            case 3: //tot
+                //Statusmeldung als Beschreibungstext setzen
+                $description = $GLOBALS['TL_LANG']['tl_bkm_hivemap']['description_status_'.$dc->activeRecord->status];
+                if(strlen($dc->activeRecord->description) < 1) {
+                    $hivemapSet = ['description'=>$description];
+                    Database::getInstance()->prepare('UPDATE `tl_bkm_hivemap` %s WHERE id=?')
+                        ->set($hivemapSet)
+                        ->execute($dc->id);
+                }
+
+                //Bienenvolk auf aufgelöst/tot setzen
+                $colonySet = [
+                    'death' => 1
+                ];
+                Database::getInstance()
+                ->prepare('UPDATE tl_bkm_colonies %s WHERE id = ?')
+                ->set($colonySet)
+                ->execute($dc->activeRecord->pid);
+
+                //Bienenbeute auf unbenutzt setzen
+                $beehiveSet = [
+                    'used_from' => 0,
+                    'status' => ''
+                ];
+                Database::getInstance()
+                    ->prepare('UPDATE tl_bkm_beehive %s WHERE id = ?')
+                    ->set($beehiveSet)
+                    ->execute($objColony->hive_number);
+
+                break;
         }
     }
 }
