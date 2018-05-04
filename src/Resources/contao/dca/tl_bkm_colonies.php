@@ -15,6 +15,7 @@ namespace Bkm\Dca;
 use Contao\Backend;
 use Contao\Database;
 use Contao\DataContainer;
+use Srhinow\BkmBeehiveModel;
 
 $GLOBALS['TL_DCA']['tl_bkm_colonies'] = array
 (
@@ -161,7 +162,6 @@ $GLOBALS['TL_DCA']['tl_bkm_colonies'] = array
 		'hive_number' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_bkm_colonies']['hive_number'],
-//			'foreignKey'              => 'tl_bk_bkm_bee_prey.nr',
 			'filter'                  => true,
 			'sorting'                 => true,
 			'flag'                    => 11,
@@ -272,15 +272,12 @@ class Colonies extends Backend
      */
     public function listEntries($arrRow)
     {
-        $objHive = Database::getInstance()->prepare("SELECT * FROM `tl_bkm_beehive` WHERE id=?")
-            ->limit(1)
-            ->execute($arrRow['hive_number']);
+        $objHive = BkmBeehiveModel::findById($arrRow['hive_number']);
 
-        $arrHive = $objHive->fetchAssoc();
+        $return = $objHive->nr.' ('.$GLOBALS['TL_LANG']['tl_bkm_colonies']['queen_color_options'][$arrRow['queen_color']].')';
+        if($arrRow['death']) $return .= ', aufgelöst';
 
-        $besetzt = ($arrRow['death'])?'ja':'nein';
-
-        return $arrHive['nr'].' ('.$GLOBALS['TL_LANG']['tl_bkm_colonies']['queen_color_options'][$arrRow['queen_color']].'), aufgelöst: '.$besetzt;
+        return $return;
     }
     /**
      * Return the edit Hive button
@@ -357,6 +354,6 @@ class Colonies extends Backend
         Database::getInstance()->prepare('UPDATE tl_bkm_beehive %s WHERE id = ?')->set($set)->execute($dc->activeRecord->hive_number);
 
         // falls tot die Bienenstock-Zuweisung löschen
-        if($dc->activeRecord->death > 0) Database::getInstance()->prepare('UPDATE tl_bkm_colonies SET hive_number = ? WHERE id = ?')->execute(0,$dc->id);
+//        if($dc->activeRecord->death > 0) Database::getInstance()->prepare('UPDATE tl_bkm_colonies SET hive_number = ? WHERE id = ?')->execute(0,$dc->id);
     }
 }
