@@ -149,6 +149,7 @@ class ModuleBkmWeather extends BackendModule
                     'temparature_max' => $weather->temperature->max->getValue(),
                     'humidity' => $weather->humidity->getValue(),
                     'pressure' => $weather->pressure->getValue(),
+                    'precipitation' => $weather->precipitation->getFormatted(),
                     'wind_speed' => number_format($weather->wind->speed->getValue() * 3.6, 0,',','.'),
                     'wind_direction' => $weather->wind->direction->getDescription(),
                     'wind_direction_short' => $weather->wind->direction->getUnit(),

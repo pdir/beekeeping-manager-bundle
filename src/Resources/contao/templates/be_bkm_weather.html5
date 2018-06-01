@@ -26,6 +26,7 @@
                         <th>Wind</th>
                         <th>Luftdruck</th>
                         <th>Luftfeuchtigkeit</th>
+                        <th>Niederschlag</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -38,6 +39,7 @@
                 <td><?= $arr['wind_speed']?> km/h | <?= $arr['wind_direction_short'];?></td>
                 <td><?= number_format($arr['pressure'],'0',',','.');?> hPa</td>
                 <td><?= number_format($arr['humidity'],'0',',','.');?>%</td>
+                <td><?= number_format($arr['precipitation'],'0',',','.');?>%</td>
             </tr>
         <?php endforeach; ?>
                 </tbody></table></div>
