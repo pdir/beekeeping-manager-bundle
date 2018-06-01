@@ -18,7 +18,9 @@ use Contao\DataContainer;
 use Contao\Date;
 use Contao\Input;
 use Srhinow\BkmBeehiveModel;
+use Srhinow\BkmBreedQualityModel;
 use Srhinow\BkmColoniesModel;
+use Srhinow\BkmFeedQualityModel;
 use Srhinow\BkmGentlenessModel;
 use Srhinow\BkmHivemapModel;
 use Srhinow\BkmLocationModel;
@@ -365,7 +367,8 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
             'default'               => 'item',
             'exclude'               => true,
             'inputType'             => 'select',
-            'options' 		  		=> &$GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_breed_options'],
+//            'options' 		  		=> &$GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_breed_options'],
+            'options_callback'        => array('Bkm\Dca\Hivemap', 'getBreedQualityOptions'),
             'eval'                  => array('tl_class'=>'w50', 'includeBlankOption'=>true),
             'sql'					=> "varchar(32) NOT NULL default 'item'"
         ),
@@ -375,7 +378,7 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
             'default'               => 'item',
             'exclude'               => true,
             'inputType'             => 'select',
-            'options' 		  		=> &$GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_feed_options'],
+            'options_callback'        => array('Bkm\Dca\Hivemap', 'getFeedQualityOptions'),
             'eval'                  => array('tl_class'=>'w50', 'includeBlankOption'=>true),
             'sql'					=> "varchar(32) NOT NULL default 'item'"
         ),
@@ -517,6 +520,41 @@ class Hivemap extends Backend
         while($all->next())
         {
             $varValue[$all->id] = $all->kurz.' ('.$all->text.')';
+        }
+        return $varValue;
+    }
+    /**
+     * get options for item units
+     * @param DataContainer $dc
+     * @return array
+     */
+    public function getBreedQualityOptions(DataContainer $dc)
+    {
+        $varValue= array();
+
+        $all = BkmBreedQualityModel::findAll(['order'=>'sorting ASC']);
+
+        while($all->next())
+        {
+            $varValue[$all->id] = $all->short.' ('.$all->name.')';
+        }
+        return $varValue;
+    }
+
+    /**
+     * get options for item units
+     * @param DataContainer $dc
+     * @return array
+     */
+    public function getFeedQualityOptions(DataContainer $dc)
+    {
+        $varValue= array();
+
+        $all = BkmFeedQualityModel::findAll(['order'=>'sorting ASC']);
+
+        while($all->next())
+        {
+            $varValue[$all->id] = $all->short.' ('.$all->name.')';
         }
         return $varValue;
     }

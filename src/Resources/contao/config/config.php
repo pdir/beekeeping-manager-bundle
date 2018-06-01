@@ -76,12 +76,12 @@ $GLOBALS['BKM_MOD'] = array
         'bkm_feed_quality' => array
         (
             'tables'					=> array('tl_bkm_feed_quality'),
-            'icon'   => BKM_PUBLIC_FOLDER.'/icons/crown_gold.png',
+            'icon'   => BKM_PUBLIC_FOLDER.'/icons/cookies.png',
         ),
        'bkm_breed_quality' => array
         (
             'tables'					=> array('tl_bkm_breed_quality'),
-            'icon'   => BKM_PUBLIC_FOLDER.'/icons/crown_gold.png',
+            'icon'   => BKM_PUBLIC_FOLDER.'/icons/emotion_baby.png',
         ),
 		'bkm_population_size' => array
 		(
@@ -91,7 +91,7 @@ $GLOBALS['BKM_MOD'] = array
 		'bkm_gentleness' => array
 		(
 			'tables'					=> array('tl_bkm_gentleness'),
-			'icon'						=> BKM_PUBLIC_FOLDER.'/icons/heart_half.png',
+			'icon'						=> BKM_PUBLIC_FOLDER.'/icons/bow.png',
 		),
 		'bkm_frame_dimensions' => array
 		(

@@ -35,7 +35,7 @@ $GLOBALS['TL_DCA']['tl_bkm_breed_quality'] = array
 		'sorting' => array
 		(
 			'mode'                    => 1,
-			'fields'                  => array('name'),
+			'fields'                  => array('sorting'),
 			'flag'                    => 11,
 			'panelLayout'             => 'filter;search,limit'
 		),
