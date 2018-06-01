@@ -13,7 +13,6 @@ use Cmfcmf\OpenWeatherMap;
 use Cmfcmf\OpenWeatherMap\Exception as OWMException;
 use Contao\Date;
 use Contao\StringUtil;
-use Haste\DateTime\DateTime;
 
 /**
  * Class ModuleBkmWeather
@@ -116,11 +115,11 @@ class ModuleBkmWeather extends BackendModule
 
         for($i=1; $i <= $days; $i++){
 
-            $dayTime = new DateTime('+'.$i.' days');
+            $dayTime = new \DateTime('+'.$i.' days');
             $dayTime->setTime('13','00');
             $dayTimestamp = $dayTime->getTimestamp();
 
-            $nightTime = new DateTime('+'.$i.' days');
+            $nightTime = new \DateTime('+'.$i.' days');
             $nightTime->setTime('00','01');
             $nightTimestamp = $nightTime->getTimestamp();
 
