@@ -1,3 +1,4 @@
+
 <div class="pmb_config_wrapper">
     <h1 id="tl_welcome">heutiges Wetter</h1>
 
@@ -7,10 +8,38 @@
             <p>Luftfeuchtigkeit: <?=$this->humidity;?></p>
             <p>Luftdruck: <?=$this->pressure;?></p>
             <p>Niederschlag: <?=$this->precipitation;?></p>
-            <p>Wind: <?=$this->wind_speed;?> / <?=$this->wind_direction;?> </p>
+            <p>Wind: <?=$this->wind_speed;?>km/h | <?=$this->wind_direction;?> </p>
             <p>Wolken: <?=$this->clouds;?></p>
             <p>Sonnenaufgang: <?=$this->sunrise;?> Uhr</p>
             <p>Sonnenuntergang: <?=$this->sunset;?> Uhr</p>
     </div>
-
+    <?php if(is_array($this->forecastArr) && count($this->forecastArr) > 0): ?>
+        <div class="forecast">
+            <h2>Wetter-Vorhersage</h2>
+            <table style="width: 100%; padding:0; margin:0;">
+                <thead>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>&nbsp;</th>
+                        <th>Temp.</th>
+                        <th>Wolken</th>
+                        <th>Wind</th>
+                        <th>Luftdruck</th>
+                        <th>Luftfeuchtigkeit</th>
+                    </tr>
+                </thead>
+                <tbody>
+        <?php foreach($this->forecastArr as $tstmp => $arr): ?>
+            <tr class="forcast__item">
+                <td class="day"><?= $this->parseDate('D',$tstmp); ?></td>
+                <td><img src="<?=$arr['icon']; ?>"></td>
+                <td><?= number_format($arr['temparature_now'],'0',',','.');?>°C</td>
+                <td><?= $arr['clouds'];?></td>
+                <td><?= $arr['wind_speed']?> km/h | <?= $arr['wind_direction_short'];?></td>
+                <td><?= number_format($arr['pressure'],'0',',','.');?> hPa</td>
+                <td><?= number_format($arr['humidity'],'0',',','.');?>%</td>
+            </tr>
+        <?php endforeach; ?>
+                </tbody></table></div>
+    <?php endif; ?>
 </div>
