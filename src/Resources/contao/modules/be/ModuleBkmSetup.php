@@ -71,7 +71,7 @@ class ModuleBkmSetup extends \BackendModule
 		// Table set but module missing, fix the saveNcreate link
 		elseif (\Input::get('table') != '')
 		{
-			foreach ($GLOBALS['BK_BKM_MOD'] as $arrGroup)
+			foreach ($GLOBALS['BKM_MOD'] as $arrGroup)
 			{
 				foreach( $arrGroup as $strModule => $arrConfig )
 				{
