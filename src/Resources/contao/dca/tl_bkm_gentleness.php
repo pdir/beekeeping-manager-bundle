@@ -120,15 +120,6 @@ $GLOBALS['TL_DCA']['tl_bkm_gentleness'] = array
 			'eval'                    => array('mandatory'=>true, 'unique'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
 			'sql'                     => "varchar(255) NOT NULL default ''"
 		),
-		'frame_dimensions' => array
-		(
-			'label'                   => &$GLOBALS['TL_LANG']['tl_bkm_gentleness']['frame_dimensions'],
-			'exclude'                 => true,
-			'search'                  => true,
-			'inputType'               => 'text',
-			'eval'                    => array('mandatory'=>true, 'unique'=>true, 'maxlength'=>255, 'tl_class'=>'w50'),
-			'sql'                     => "varchar(255) NOT NULL default ''"
-		),
 		'kurz' => array
 		(
 			'label'                   => &$GLOBALS['TL_LANG']['tl_bkm_gentleness']['kurz'],

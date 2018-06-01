@@ -15,6 +15,7 @@ namespace Bkm\Dca;
 use Contao\Backend;
 use Contao\Database;
 use Contao\DataContainer;
+use Srhinow\BkmBeeBreedModel;
 use Srhinow\BkmBeehiveModel;
 
 $GLOBALS['TL_DCA']['tl_bkm_colonies'] = array
@@ -188,7 +189,8 @@ $GLOBALS['TL_DCA']['tl_bkm_colonies'] = array
 			'sorting'                 => true,
 			'flag'                    => 11,
 			'inputType'               => 'select',
-			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'w50', 'includeBlankOption'=>false,'submitOnChange'=>true),
+            'options_callback'        => array('Bkm\Dca\Colonies', 'getBeeBreedOptions'),
+			'eval'                    => array('mandatory'=>false, 'maxlength'=>255, 'tl_class'=>'w50', 'includeBlankOption'=>false,'submitOnChange'=>false),
 			'sql'                     => "varchar(32) NOT NULL default ''",
 			'relation'                => array('type'=>'belongsTo', 'load'=>'eager')
 		),
@@ -355,5 +357,25 @@ class Colonies extends Backend
 
         // falls tot die Bienenstock-Zuweisung löschen
 //        if($dc->activeRecord->death > 0) Database::getInstance()->prepare('UPDATE tl_bkm_colonies SET hive_number = ? WHERE id = ?')->execute(0,$dc->id);
+    }
+
+
+    /**
+     * get options for item units
+     * @param object
+     * @return array
+     */
+    public function getBeeBreedOptions(DataContainer $dc)
+    {
+        $varValue= array();
+
+        $all = BkmBeeBreedModel::findAll(['order'=>'sorting ASC']);
+
+        while($all->next())
+        {
+            $varValue[$all->id] = $all->name;
+            if(strlen($all->short) > 0) $varValue[$all->id] .= ' ('.$all->short.')';
+        }
+        return $varValue;
     }
 }

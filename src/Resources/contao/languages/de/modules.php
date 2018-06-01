@@ -31,6 +31,12 @@ $GLOBALS['TL_LANG']['BKM']['bkm_beehive'][0]     = 'Bienen-Beuten';
 $GLOBALS['TL_LANG']['BKM']['bkm_beehive'][1]     = 'Die vorhandenen Beuten die einem Volk zugeordnet werden.';
 $GLOBALS['TL_LANG']['BKM']['bkm_bee_breed'][0]     = 'Bienen-Rasse';
 $GLOBALS['TL_LANG']['BKM']['bkm_bee_breed'][1]     = 'Die Rasse der Bienen.';
+
+$GLOBALS['TL_LANG']['BKM']['bkm_feed_quality'][0]     = 'Futtermengen';
+$GLOBALS['TL_LANG']['BKM']['bkm_feed_quality'][1]     = 'Hier werden die Futter-Bewertungen eingestellt welche in der Stockkarte zur Verfügung stehen.';
+$GLOBALS['TL_LANG']['BKM']['bkm_breed_quality'][0]     = 'Brutmengen';
+$GLOBALS['TL_LANG']['BKM']['bkm_breed_quality'][1]     = 'Hier werden die Brut-Bewertungen eingestellt welche in der Stockkarte zur Verfügung stehen.';
+
 $GLOBALS['TL_LANG']['BKM']['bkm_location'][0]     = 'Standorte';
 $GLOBALS['TL_LANG']['BKM']['bkm_location'][1]     = 'Die verschiedenen vorhandenen Standorte werden hier verwaltet.';
 $GLOBALS['TL_LANG']['BKM']['bkm_population_size'][0]     = 'Volksstärke';

@@ -19,6 +19,7 @@ use Contao\Date;
 use Contao\Input;
 use Srhinow\BkmBeehiveModel;
 use Srhinow\BkmColoniesModel;
+use Srhinow\BkmGentlenessModel;
 use Srhinow\BkmHivemapModel;
 use Srhinow\BkmLocationModel;
 
@@ -384,7 +385,7 @@ $GLOBALS['TL_DCA']['tl_bkm_hivemap'] = array
             'default'               => 'item',
             'exclude'               => true,
             'inputType'             => 'select',
-            'options' 		  		=> &$GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_gentleness_options'],
+            'options_callback'        => array('Bkm\Dca\Hivemap', 'getGentlenessOptions'),
             'eval'                  => array('tl_class'=>'w50', 'includeBlankOption'=>true),
             'sql'					=> "varchar(32) NOT NULL default 'item'"
         ),
@@ -498,6 +499,24 @@ class Hivemap extends Backend
         {
             $objBeeHive = BkmBeehiveModel::findById($all->hive_number);
             $varValue[$all->id] = $objBeeHive->nr.' ('.$objBeeHive->notiz.')';
+        }
+        return $varValue;
+    }
+
+    /**
+     * get options for item units
+     * @param object
+     * @return array
+     */
+    public function getGentlenessOptions(DataContainer $dc)
+    {
+        $varValue= array();
+
+        $all = BkmGentlenessModel::findAll(['order'=>'sorting ASC']);
+
+        while($all->next())
+        {
+            $varValue[$all->id] = $all->kurz.' ('.$all->text.')';
         }
         return $varValue;
     }

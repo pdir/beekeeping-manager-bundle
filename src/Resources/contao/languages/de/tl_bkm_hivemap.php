@@ -98,14 +98,7 @@ $GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_feed_options'] = array
     '4' => '4',
     '5' => '5'
 );
-$GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_gentleness_options'] = array
-(
-    '1' => '1',
-    '2' => '2',
-    '3' => '3',
-    '4' => '4',
-    '5' => '5'
-);
+
 
 /**
  * Buttons

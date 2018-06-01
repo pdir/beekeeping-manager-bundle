@@ -45,6 +45,8 @@ array_insert($GLOBALS['BE_MOD']['beekeeping'], 0, array(
 );
 
 $GLOBALS['TL_MODELS']['tl_bkm_bee_breed'] = \Srhinow\BkmBeeBreedModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_feed_quality'] = \Srhinow\BkmFeedQualityModel::class;
+$GLOBALS['TL_MODELS']['tl_bkm_breed_quality'] = \Srhinow\BkmBreedQualityModel::class;
 $GLOBALS['TL_MODELS']['tl_bkm_beehive'] = \Srhinow\BkmBeehiveModel::class;
 $GLOBALS['TL_MODELS']['tl_bkm_colonies'] = \Srhinow\BkmColoniesModel::class;
 $GLOBALS['TL_MODELS']['tl_bkm_frame_dimensions'] = \Srhinow\BkmFrameDimensionsModel::class;
@@ -71,6 +73,16 @@ $GLOBALS['BKM_MOD'] = array
 			'tables'					=> array('tl_bkm_bee_breed'),
 			'icon'   => BKM_PUBLIC_FOLDER.'/icons/crown_gold.png',
 		),
+        'bkm_feed_quality' => array
+        (
+            'tables'					=> array('tl_bkm_feed_quality'),
+            'icon'   => BKM_PUBLIC_FOLDER.'/icons/crown_gold.png',
+        ),
+       'bkm_breed_quality' => array
+        (
+            'tables'					=> array('tl_bkm_breed_quality'),
+            'icon'   => BKM_PUBLIC_FOLDER.'/icons/crown_gold.png',
+        ),
 		'bkm_population_size' => array
 		(
 			'tables'					=> array('tl_bkm_population_size'),
