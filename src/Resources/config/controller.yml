@@ -1,0 +1,9 @@
+services:
+  _defaults:
+    public: false
+    autowire: false
+    autoconfigure: false
+
+  srhinow.beekeeeping_manager.backend.export_controller:
+    class: Srhinow\BeekeepingManagerBundle\Controller\Backend\BeekeepingExportController
+    public: true

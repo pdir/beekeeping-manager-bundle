@@ -33,6 +33,7 @@ class SrhinowBeekeepingManagerExtension extends Extension
         );
 
         $loader->load('listener.yml');
+        $loader->load('controller.yml');
     }
 }
 
