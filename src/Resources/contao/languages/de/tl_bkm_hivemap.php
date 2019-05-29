@@ -124,6 +124,7 @@ $GLOBALS['TL_LANG']['tl_bkm_hivemap']['rating_legend'] = 'Bewertungen';
 */
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['csvExport'] = array('CSV-Export', 'Stockkarte als CSV exportieren.');
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['exportCSV'] = array('starte Export', '');
+$GLOBALS['TL_LANG']['tl_bkm_hivemap']['export_separator'] = array('CSV-Trenner','');
 $GLOBALS['TL_LANG']['tl_bkm_hivemap']['exportYear'] = array('exportiere folgendes Jahr','alle Bemerkungen innerhalb dieses Jahres werden in eine CSV exportiert.');
 
 /**
