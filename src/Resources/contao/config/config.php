@@ -26,13 +26,13 @@ if(!$GLOBALS['BE_MOD']['beekeeping']) array_insert($GLOBALS['BE_MOD'], 1, array(
 array_insert($GLOBALS['BE_MOD']['beekeeping'], 0, array(
     'bkm_location' => array
     (
-        'tables'					=> array('tl_bkm_location','tl_bkm_colonies','tl_bkm_hivemap'),
+        'tables'	=> array('tl_bkm_location','tl_bkm_colonies','tl_bkm_hivemap'),
+        'csvExport' => array('srhinow.beekeeeping_manager.backend.export_controller', 'csvExport'),
+        'pdfExport' => array('srhinow.beekeeeping_manager.backend.export_controller', 'pdfExport'),
     ),
     'bkm_weather' => array
     (
-        'callback'	=> 'Bkm\Modules\Be\ModuleBkmWeather',
-        'csvExport' => array('Bkm\Backend\beBeekeepingExport', 'csvExport'),
-        'pdfExport' => array('Bkm\Backend\beBeekeepingExport', 'pdfExport'),
+        'callback'	=> 'Bkm\Modules\Be\ModuleBkmWeather'
     ),
     'bkm_settings' => array
 		(
@@ -65,7 +65,7 @@ $GLOBALS['BKM_MOD'] = array
 	(
         'bkm_beehive' => array
         (
-            'tables'					=> array('tl_bkm_beehive','tl_bkm_colonies','tl_bkm_hivemap'),
+            'tables' => array('tl_bkm_beehive','tl_bkm_colonies','tl_bkm_hivemap'),
             'icon'   => BKM_PUBLIC_FOLDER.'/icons/caution_board.png',
         ),
 	    'bkm_bee_breed' => array
